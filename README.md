@@ -28,9 +28,9 @@ You need a modern web browser and a local web server to run this project due to 
 
 ### Installation
 
-1.  Clone the repository (if it's on Git):
+1.  Clone the repository:
     ```sh
-    git clone https://github.com/your-username/MoviesShowLand.git
+    git clone https://github.com/RitSpunterprise/MoviesShowLand.git
     ```
 2.  Navigate to the project directory:
     ```sh
