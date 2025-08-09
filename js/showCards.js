@@ -23,9 +23,9 @@ const displayMovies = async () => {
     });
   } catch (error) {
     loadingIndicator.style.display = 'none'; // Hide loading indicator
-    errorDisplay.textContent = `Failed to load movies. Please try again later. Error: ${error.message}`;
+    errorDisplay.textContent = `Failed to load movies and tv shows. Please try again later. Error: ${error.message}`;
     errorDisplay.classList.remove('d-none');
-    console.error("Error fetching movie data:", error);
+    console.error("Error fetching movies and tv shows data:", error);
   }
 }
 

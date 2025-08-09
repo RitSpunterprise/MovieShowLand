@@ -1,16 +1,21 @@
-
 /**
- * 
- * @returns {Array} Titles from https://api.imdbapi.dev/titles
+ * Fetches a list of movie titles from the API.
+ * @returns {Promise<Array<Object>>} A promise that resolves to an array of movie and tv shows objects.
+ * @throws {Error} Throws an error if the network request fails or the API returns a non-successful status.
  */
 export const data = async () => {
-    try {
-        const response = await fetch('https://api.imdbapi.dev/titles');
-        const data = await response.json();
-        //data.titles porque retorna un objeto con mas objetos anidados pero queremos unicamente el de titles, data.titles retorna un arreglo con todos los objetos
-        return data.titles;
+    const API_URL = 'https://api.imdbapi.dev/titles';
+    const response = await fetch(API_URL);
 
-    } catch (error) {
-        throw error;
+    // Check if the HTTP response status is successful (e.g., 200 = OK).
+    // fetch() only rejects on network errors, not on HTTP error codes.
+    if (!response.ok) {
+        throw new Error(`API request failed with status: ${response.status} ${response.statusText}`);
     }
+
+    // Parse the response as JSON.
+    const responseData = await response.json();
+    // The API returns an object with a 'titles' property containing the array.
+    // Return the titles array, or an empty array if 'titles' is not present.
+    return responseData.titles || [];
 }
