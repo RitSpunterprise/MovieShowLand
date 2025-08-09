@@ -13,7 +13,7 @@ export const createMovieCard = (item) => {
     const img = document.createElement('img');
     img.className = 'card-img-top';
     img.src = item['primaryImage']?.url ?? 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg';
-    img.alt = item['primaryTitle'];
+    img.alt = `Poster for ${item['primaryTitle']}`;
 
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body d-flex flex-column';

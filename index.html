@@ -2,24 +2,49 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Movies & TV Shows</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>MovieShowLand - Discover and Explore Movies & TV Shows</title>
+  <meta name="description" content="Explore a vast collection of movies and TV shows. Find details, ratings, and more on MovieShowLand, your ultimate guide to cinema and series.">
+  <meta name="keywords" content="movies, tv shows, cinema, films, series, reviews, ratings">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://your-username.github.io/MoviesShowLand/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-username.github.io/MoviesShowLand/">
+  <meta property="og:title" content="MovieShowLand - Discover and Explore Movies & TV Shows">
+  <meta property="og:description" content="Explore a vast collection of movies and TV shows. Find details, ratings, and more on MovieShowLand.">
+  <meta property="og:image" content="https://your-username.github.io/MoviesShowLand/assets/social-preview.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://your-username.github.io/MoviesShowLand/">
+  <meta property="twitter:title" content="MovieShowLand - Discover and Explore Movies & TV Shows">
+  <meta property="twitter:description" content="Explore a vast collection of movies and TV shows. Find details, ratings, and more on MovieShowLand.">
+  <meta property="twitter:image" content="https://your-username.github.io/MoviesShowLand/assets/social-preview.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-
-  <div class="container py-4">
-    <h1 class="mb-4 text-center">Movies & TV Shows</h1>
+  <main class="container py-4">
+    <h1 class="mb-4 text-center">MovieShowLand</h1>
+    <p class="text-center lead mb-4">Discover and Explore Movies & TV Shows</p>
     <div id="app-container">
-      <div id="loading" class="alert alert-primary text-center" role="alert">Loading movies...</div>
+      <div id="loading" class="alert alert-primary text-center" role="alert">Loading content...</div>
       <div id="error" class="alert alert-danger text-center d-none" role="alert"></div>
       <div id="cards" class="row g-4"></div>
     </div>
-  </div>
+  </main>
 
   <script type="module" src="./js/showCards.js"></script>
   <!-- Bootstrap JS -->
