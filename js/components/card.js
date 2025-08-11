@@ -5,7 +5,7 @@
  */
 export const createMovieCard = (item) => {
     const col = document.createElement('div');
-    col.className = 'col-md-4';
+    col.className = 'col-md-3';
 
     const card = document.createElement('div');
     card.className = 'card h-100';
@@ -19,7 +19,7 @@ export const createMovieCard = (item) => {
     cardBody.className = 'card-body d-flex flex-column';
 
     const title = document.createElement('h5');
-    title.className = 'card-title';
+    title.className = 'card-title text-center';
     title.textContent = item['primaryTitle'];
 
     // Helper to create <p><strong>Label:</strong> Value</p> elements
@@ -33,12 +33,13 @@ export const createMovieCard = (item) => {
         return p;
     };
 
+    //Verifying the type of item to display on card at the second append
     cardBody.append(title,
-        createInfoParagraph('Type', item['type']),
-        createInfoParagraph('Release Year', item['startYear']),
-        createInfoParagraph('Rating', item['rating']?.aggregateRating ?? 'N/A'),
-        createInfoParagraph('Genres', item['genres']?.join(', ') ?? 'N/A', 'genre-list')
-    );
+        item['type'] === 'movie' ? createInfoParagraph('Type 🆎', 'Movie') : createInfoParagraph('Type 🆎', 'TV Show'),
+        createInfoParagraph('Release Year 📅', item['startYear']),
+        createInfoParagraph('Genres 📋', item['genres']?.join(', ') ?? 'N/A'),
+        createInfoParagraph('Rating ⭐', item['rating']?.aggregateRating ?? 'N/A', 'text-center')
+    )
 
     card.append(img, cardBody);
     col.appendChild(card);
