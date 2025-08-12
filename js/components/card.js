@@ -5,7 +5,7 @@
  */
 export const createMovieCard = (item) => {
     const col = document.createElement('div');
-    col.className = 'col-md-3';
+    col.className = 'col-md-3 d-flex justify-content-center';
 
     const card = document.createElement('div');
     card.className = 'card h-100';
@@ -19,7 +19,7 @@ export const createMovieCard = (item) => {
     cardBody.className = 'card-body d-flex flex-column';
 
     const title = document.createElement('h5');
-    title.className = 'card-title text-center';
+    title.className = 'card-title text-center mb-4';
     title.textContent = item['primaryTitle'];
 
     // Helper to create <p><strong>Label:</strong> Value</p> elements
@@ -35,13 +35,15 @@ export const createMovieCard = (item) => {
 
     //Verifying the type of item to display on card at the second append
     cardBody.append(title,
-        item['type'] === 'movie' ? createInfoParagraph('Type 🆎', 'Movie') : createInfoParagraph('Type 🆎', 'TV Show'),
+        item['type'] === 'movie' ? createInfoParagraph('Type 🆎', 'Movie') : createInfoParagraph('Type 🆎', 'TV Series'),
         createInfoParagraph('Release Year 📅', item['startYear']),
-        createInfoParagraph('Genres 📋', item['genres']?.join(', ') ?? 'N/A'),
-        createInfoParagraph('Rating ⭐', item['rating']?.aggregateRating ?? 'N/A', 'text-center')
+        createInfoParagraph('Genres 📋', item['genres']?.join(', ') ?? 'N/A')
     )
 
-    card.append(img, cardBody);
+    //Paragraph to always be in the card bottom, if append this element to cardBody, the card body is always dinamyc, and the genre list is always changing, so the rating moves too, and isnt fix to the bottom like this way
+    const ratingParagraph = createInfoParagraph('Rating ⭐', item['rating']?.aggregateRating ?? 'N/A', 'text-center mb-4');
+
+    card.append(img, cardBody, ratingParagraph);
     col.appendChild(card);
 
     return col;

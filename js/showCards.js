@@ -9,7 +9,6 @@ const displayMovies = async () => {
   try {
     //Consume promise data()
     const items = await data();
-    loadingIndicator.style.display = 'none'; // Hide loading indicator
 
     if (!items || items.length === 0) {
       errorDisplay.textContent = 'No movies found.';
@@ -17,15 +16,18 @@ const displayMovies = async () => {
       return;
     }
 
+    // Hide loading indicator
+    loadingIndicator.style.display = 'none';
+    //Start to show the items
     items.forEach(item => {
       const movieCard = createMovieCard(item);
       container.appendChild(movieCard);
     });
   } catch (error) {
     loadingIndicator.style.display = 'none'; // Hide loading indicator
-    errorDisplay.textContent = `Failed to load movies and tv shows. Please try again later. Error: ${error.message}`;
+    errorDisplay.textContent = `Failed to load movies and tv series. Please try again later. Error: ${error.message}`;
     errorDisplay.classList.remove('d-none');
-    console.error("Error fetching movies and tv shows data:", error);
+    console.error("Error fetching movies and tv series data:", error);
   }
 }
 
