@@ -5,7 +5,7 @@
  */
 export const createMovieCard = (item) => {
     const col = document.createElement('div');
-    col.className = 'col-md-3 d-flex justify-content-center';
+    col.className = 'col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-8 d-flex justify-content-center';
 
     const card = document.createElement('div');
     card.className = 'card h-100';
