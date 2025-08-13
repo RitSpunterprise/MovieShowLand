@@ -40,7 +40,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">MovieShowLand</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,7 @@
       <div id="loading" class="alert alert-primary text-center" role="alert">Loading content...</div>
       <div id="error" class="alert alert-danger text-center d-none" role="alert"></div>
       <div id="cards" class="row g-4 justify-content-center"></div>
+      <div id="observer-trigger" style="height: 50px;"></div>
     </div>
   </main>
 
