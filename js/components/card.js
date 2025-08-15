@@ -1,3 +1,5 @@
+import { config } from '../config.js';
+
 /**
  * Creates a movie card element from a movie data object.
  * @param {object} item - The movie data object.
@@ -10,10 +12,21 @@ export const createMovieCard = (item) => {
     const card = document.createElement('div');
     card.className = 'card h-100';
 
+    //Title url
+    const url = new URL(`titles/${item.id}`, config.API_URL);
+    //console.log(url)
+
+    const titleLink = document.createElement('a');
+    titleLink.href = url;
+    titleLink.target = '_blank'
+
     const img = document.createElement('img');
     img.className = 'card-img-top';
     img.src = item['primaryImage']?.url ?? 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg';
     img.alt = `Poster for ${item['primaryTitle']}`;
+
+    //Add img to the link
+    titleLink.appendChild(img);
 
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body d-flex flex-column';
@@ -43,7 +56,7 @@ export const createMovieCard = (item) => {
     //Paragraph to always be in the card bottom, if append this element to cardBody, the card body is always dinamyc, and the genre list is always changing, so the rating moves too, and isnt fix to the bottom like this way
     const ratingParagraph = createInfoParagraph('Rating ⭐', item['rating']?.aggregateRating ?? 'N/A', 'text-center mb-4');
 
-    card.append(img, cardBody, ratingParagraph);
+    card.append(titleLink, cardBody, ratingParagraph);
     col.appendChild(card);
 
     return col;
