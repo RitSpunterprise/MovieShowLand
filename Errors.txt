@@ -1,0 +1,7 @@
+
+Error for this image and others: https://m.media-amazon.com/images/M/MV5BOWI1Mzg0OWUtNDYxYy00Mzk3LTgxMjMtYWYxZjJhMjI4NDcyXkEyXkFqcGc@._V1_.jpg when triying to parse uri to images.weserv.nl
+{
+  "status": "error",
+  "code": 404,
+  "message": "Input image exceeds pixel limit. Width x height should be less than 71000000"
+}

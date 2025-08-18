@@ -1,0 +1,126 @@
+{
+    "id": "tt13443470",
+    "type": "tvSeries",
+    "primaryTitle": "Wednesday",
+    "primaryImage": {
+        "url": "https://m.media-amazon.com/images/M/MV5BZGQxYWFlNzgtODZjMS00YmM5LWEzZWMtOGVmODMzYjIyODZiXkEyXkFqcGc@._V1_.jpg",
+        "width": 450,
+        "height": 630
+    },
+    "startYear": 2022,
+    "runtimeSeconds": 2700,
+    "genres": [
+        "Comedy",
+        "Crime",
+        "Fantasy",
+        "Mystery"
+    ],
+    "rating": {
+        "aggregateRating": 8,
+        "voteCount": 436714
+    },
+    "plot": "Follows Wednesday Addams' years as a student, when she attempts to master her emerging psychic ability, thwart a killing spree, and solve the mystery that embroiled her parents.",
+    "directors": [
+        {
+            "id": "nm0000318",
+            "displayName": "Tim Burton",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZmFhZTljMTgtMTVmMS00NWFhLWE2ZDEtYjM5YWYwZmI0NWI1XkEyXkFqcGc@._V1_.jpg",
+                "width": 1107,
+                "height": 1639
+            }
+        },
+        {
+            "id": "nm0550931",
+            "displayName": "James Marshall",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZjc0YTk1YTMtMWRmMC00OTA4LWE4MDQtZjZlZWIwYzgxMDJmXkEyXkFqcGc@._V1_.jpg",
+                "width": 483,
+                "height": 358
+            }
+        },
+        {
+            "id": "nm2161247",
+            "displayName": "Paco Cabezas",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BOTQ2NzAxNmQtOTFhOS00NGI5LTk3YjAtYmI0MDI4ZmI1ZmE4XkEyXkFqcGc@._V1_.jpg",
+                "width": 1024,
+                "height": 717
+            }
+        }
+    ],
+    "writers": [
+        {
+            "id": "nm0332184",
+            "displayName": "Alfred Gough"
+        },
+        {
+            "id": "nm0587692",
+            "displayName": "Miles Millar"
+        },
+        {
+            "id": "nm0011623",
+            "displayName": "Charles Addams",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BMTE5NDQ0MjYtZmU3MC00YmEwLWIxMDktNDA3YWI4YjUzYjAyXkEyXkFqcGc@._V1_.jpg",
+                "width": 2755,
+                "height": 3600
+            }
+        }
+    ],
+    "stars": [
+        {
+            "id": "nm4911194",
+            "displayName": "Jenna Ortega",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BYTRmNGY5ZTgtMzI1MS00YTIwLWJhZjktOGE5OGEzMWUyYWJhXkEyXkFqcGc@._V1_.jpg",
+                "width": 7543,
+                "height": 4762
+            },
+            "primaryProfessions": [
+                "actress",
+                "producer",
+                "soundtrack"
+            ]
+        },
+        {
+            "id": "nm5547023",
+            "displayName": "Hunter Doohan",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BNGQ3NGRlZTYtZDM0NC00NzliLWJkOWYtZDkwNmI2Y2RhMDU5XkEyXkFqcGc@._V1_.jpg",
+                "width": 853,
+                "height": 1280
+            }
+        },
+        {
+            "id": "nm3528821",
+            "displayName": "Emma Myers",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZTRkMTA1NmUtYTRjNS00NjVhLWFkMjktODIyNzQ3MTJmMDE0XkEyXkFqcGc@._V1_.jpg",
+                "width": 2667,
+                "height": 4000
+            }
+        },
+        {
+            "id": "nm8137263",
+            "displayName": "Joy Sunday",
+            "primaryImage": {
+                "url": "https://m.media-amazon.com/images/M/MV5BZDU5OWUwMGQtMWU4Zi00MjA5LWEwZjctZWM2NmFjNWQ2YjMyXkEyXkFqcGc@._V1_.jpg",
+                "width": 3462,
+                "height": 4328
+            }
+        }
+    ],
+    "originCountries": [
+        {
+            "code": "US",
+            "name": "United States"
+        }
+    ],
+    "spokenLanguages": [
+        {
+            "code": "eng",
+            "name": "English"
+        }
+    ]
+}
