@@ -118,6 +118,16 @@ body.light-mode {
     color: var(--text-color-dark);
 }
 
+.navbar-brand {
+    transition: 0.2s ease-in-out;
+    color: inherit;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.08); /* Scale up the element slightly on hover by 0.8% */
+    color: var(--text-color-dark);
+}
+
 #load-trigger {
     border: 1px solid;
 }

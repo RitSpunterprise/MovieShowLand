@@ -1,5 +1,5 @@
-import { data } from './data.js';
-import { createMovieCard } from './components/card.js';
+import { getTitlesData } from '../models/data.js';
+import { createPrincipalCard } from '../components/principalCard.js';
 
 const container = document.getElementById('cards');
 const loadingIndicator = document.getElementById('loading');
@@ -21,7 +21,7 @@ const displayMovies = async (items) => {
   }
 
   await items.forEach(item => {
-    const movieCard = createMovieCard(item);
+    const movieCard = createPrincipalCard(item);
     container.appendChild(movieCard);
   });
 
@@ -35,7 +35,7 @@ const loadNextPage = async () => {
   loadingIndicator.style.display = 'block';
 
   try {
-    const items = await data(currentPage);
+    const items = await getTitlesData(currentPage);
     if (items['titles'].length > 0) {
 
       //REVIEW WHAT THIS DOES

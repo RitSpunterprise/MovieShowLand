@@ -1,28 +1,40 @@
-import { config } from '../config.js';
+import { imageUrlF } from '../utils/imageURL.js';
 
 /**
  * Creates a movie card element from a movie data object.
  * @param {object} item - The movie data object.
  * @returns {HTMLElement} The movie card element (a bootstrap column).
  */
-export const createMovieCard = (item) => {
+export const createPrincipalCard = (item) => {
     const col = document.createElement('div');
     col.className = 'col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-8 d-flex justify-content-center';
 
     const card = document.createElement('div');
     card.className = 'card h-100';
 
-    //Title url
-    const url = new URL(`titles/${item.id}`, config.API_URL);
-    //console.log(url)
-
     const titleLink = document.createElement('a');
-    titleLink.href = url;
-    titleLink.target = '_blank'
+    titleLink.href = `src/pages/titlesInfo.html?id=${item.id}`;
 
     const img = document.createElement('img');
-    img.className = 'card-img-top';
-    img.src = item['primaryImage']?.url ?? 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg';
+    img.className = 'card-img-top lazy'; // Add a 'lazy' class for the observer to target
+
+    // Use a placeholder image initially
+    const defaultUrl = 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg';
+    img.src = defaultUrl;
+
+    // Store the actual image URL in a data attribute, resizing and compressing it with an image proxy
+    const imageUrl = item['primaryImage']?.url;
+    //console.log(`Image for ${item.primaryTitle}:`, imageUrl)
+
+    if (imageUrl) {
+        // Use an image proxy to resize and compress the image, removing the protocol
+        const urlWithoutProtocol = imageUrl.replace('/^https?:\/\//', '');
+        img.src = imageUrlF(urlWithoutProtocol, defaultUrl, { w: 300, h: 450, fit: 'cover', q: 80 })
+
+    } else {
+        img.src = defaultUrl;
+    }
+
     img.alt = `Poster for ${item['primaryTitle']}`;
 
     //Add img to the link
