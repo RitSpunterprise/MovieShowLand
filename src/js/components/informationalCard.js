@@ -38,7 +38,7 @@ export const createInformationalCard = (item) => {
     titleContainer.className = 'title-container rounded mb-2';
     const title = document.createElement('h1');
     title.className = 'text-center';
-    title.textContent = item.primaryTitle;
+    title.textContent = `${item.primaryTitle} (${item.startYear})`;
     titleContainer.appendChild(title)
 
     const plot = document.createElement('p');
@@ -72,12 +72,11 @@ export const createInformationalCard = (item) => {
 
     list.append(
         createListItem('Type', type),
-        createListItem('Release Year', item.startYear),
-        createListItem('Genres', genres),
-        createListItem('Rating', rating),
         createListItem('Directors', directors),
         createListItem('Writers', writers),
         createListItem('Stars', stars),
+        createListItem('Genres', genres),
+        createListItem('Rating', rating),
         createListItem('Spoken Languages', lang),
         createListItem('Origin Country', country),
         createListItem('Running time', runTime, !(runTime === 'N/A') ? 'minutes' : '')

@@ -9,6 +9,7 @@ A clean and simple web application to browse a list of movies and TV shows, fetc
 
 -   Fetches and displays a dynamic list of movies and TV shows.
 -   Clean and responsive card-based layout.
+-   Dynamic theme that adapts to the dominant color of the movie/show poster.
 -   Robust error handling for API requests.
 -   Built with modern JavaScript (ES Modules, Async/Await).
 
@@ -17,6 +18,7 @@ A clean and simple web application to browse a list of movies and TV shows, fetc
 -   **HTML5**
 -   **CSS3**
 -   **JavaScript (ES6+)**: Utilizes modern features like `fetch` and `async/await` for handling asynchronous operations.
+-   **Bootstrap 5**: For responsive design and UI components.
 
 ## 🚀 Getting Started
 
@@ -37,6 +39,25 @@ You need a modern web browser and a local web server to run this project due to 
     cd MoviesShowLand
     ```
 3.  Open the `index.html` file with a live server. If you are using the VS Code Live Server extension, you can right-click on `index.html` and select "Open with Live Server".
+
+## 📁 File Structure
+
+The project follows a modular structure:
+
+```
+/
+├── src/
+│   ├── js/
+│   │   ├── components/
+│   │   ├── config/
+│   │   ├── models/
+│   │   ├── themes/
+│   │   ├── utils/
+│   │   └── views/
+│   ├── css/
+│   └── assets/
+└── index.html
+```
 
 ## 🔌 API Reference
 

@@ -21,7 +21,7 @@ const renderTitle = (item) => {
     }
 
     // Set the document title
-    document.title = item.primaryTitle;
+    document.title = `${item.primaryTitle} (${item.startYear})`;
 
     // Create and append the informational card from the component
     const infoCard = createInformationalCard(item);
