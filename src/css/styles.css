@@ -15,6 +15,7 @@
 body {
     min-height: 100vh;
     background-attachment: fixed;
+    background-color: #232526;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -124,7 +125,8 @@ body.light-mode {
 }
 
 .navbar-brand:hover {
-    transform: scale(1.08); /* Scale up the element slightly on hover by 0.8% */
+    transform: scale(1.08);
+    /* Scale up the element slightly on hover by 0.8% */
     color: var(--text-color-dark);
 }
 
@@ -152,4 +154,38 @@ body.light-mode {
 .light-mode #load-trigger:hover {
     background-color: var(--text-color-light);
     color: var(--text-color-dark);
+}
+
+#nprogress .bar {
+    height: 6px;
+}
+
+#container {
+    padding: 40px;
+    background-color: grey;
+    color: white;
+}
+
+#nprogress .bar {
+    background: yellow;
+}
+
+#nprogress .spinner-icon {
+    border-top-color: yellow;
+    border-left-color: yellow;
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px yellow, 0 0 5px yellow;
+  opacity: 1.0;
+
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+      -ms-transform: rotate(3deg) translate(0px, -4px);
+          transform: rotate(3deg) translate(0px, -4px);
 }

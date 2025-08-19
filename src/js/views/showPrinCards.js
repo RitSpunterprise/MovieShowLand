@@ -1,16 +1,25 @@
+/**
+ * @file Manages the display and lazy loading of movie and TV show cards in the main view.
+ * It uses an IntersectionObserver to load more content as the user scrolls and handles restoring the scroll position when navigating back to the page.
+ */
+
 import { getTitlesData } from '../models/data.js';
 import { createPrincipalCard } from '../components/principalCard.js';
 
 const container = document.getElementById('cards');
 const loadingIndicator = document.getElementById('loading');
 const errorDisplay = document.getElementById('error');
-//const observerTrigger = document.getElementById('observer-trigger');
-const loadTrigger = document.getElementById('load-trigger');
+const observerTrigger = document.getElementById('observer-trigger');
 
 let currentPage = '';
 let isLoading = false;
 let allItems = [];
 
+/**
+ * Appends a list of movie/TV show items to the main container.
+ * Also adds a click listener to each card to save the scroll position.
+ * @param {Array<Object>} items - The list of items to display.
+ */
 const displayMovies = async (items) => {
   if (!items || items.length === 0) {
     if (!currentPage) {
@@ -20,15 +29,21 @@ const displayMovies = async (items) => {
     return;
   }
 
-  await items.forEach(item => {
+  items.forEach(item => {
     const movieCard = createPrincipalCard(item);
+    // Save scroll position in session storage when a card is clicked before navigating.
+    movieCard.addEventListener('click', () => {
+      sessionStorage.setItem('scrollPosition', window.scrollY);
+      NProgress.start();
+    });
     container.appendChild(movieCard);
   });
-
-  //Once everything is uploaded, then we show the load more content button 
-  loadTrigger.classList.remove('d-none')
 };
 
+/**
+ * Fetches the next page of data from the API and displays it.
+ * Handles loading states and errors.
+ */
 const loadNextPage = async () => {
   if (isLoading) return;
   isLoading = true;
@@ -37,17 +52,20 @@ const loadNextPage = async () => {
   try {
     const items = await getTitlesData(currentPage);
     if (items['titles'].length > 0) {
-
-      //REVIEW WHAT THIS DOES
+      // Concatenate new items with existing ones
       allItems = [...allItems, ...items['titles']];
 
       displayMovies(items['titles']);
+
       if (items.nextPageToken) {
         currentPage = items.nextPageToken;
+      } else {
+        // No more items to load, hide the trigger
+        observerTrigger.style.display = 'none';
       }
     } else {
       // No more items to load, hide the trigger
-      //observerTrigger.style.display = 'none';
+      observerTrigger.style.display = 'none';
     }
   } catch (error) {
     errorDisplay.textContent = `Failed to load movies and tv series. Please try again later. Error: ${error.message}`;
@@ -59,18 +77,61 @@ const loadNextPage = async () => {
   }
 };
 
-// const observer = new IntersectionObserver((entries) => {
-//   if (entries[0].isIntersecting) {
-//     loadNextPage();
-//   }
-// }, {
-//   rootMargin: '100px' // Load content 100px before it enters the viewport
-// });
+/**
+ * Sets up an IntersectionObserver to detect when the user is close to the end of the page,
+ * triggering the load of the next page.
+ */
+const observer = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    loadNextPage();
+  }
+}, {
+  rootMargin: '100px' // Load content 100px before it enters the viewport
+});
 
-// observer.observe(observerTrigger);
+/**
+ * Handles the initial loading process of the page.
+ * It checks if a scroll position is saved in sessionStorage to restore it,
+ * otherwise, it performs a normal initial load.
+ */
+const initialLoad = async () => {
+  const scrollPosition = sessionStorage.getItem('scrollPosition');
 
-// Initial load
-loadNextPage();
-loadTrigger.addEventListener('click', async () => {
-  await loadNextPage();
-})
+  // If no scroll position is saved, perform a normal load.
+  if (!scrollPosition) {
+    observer.observe(observerTrigger);
+    await loadNextPage();
+    return;
+  }
+
+  // If a scroll position is found, restore it.
+  sessionStorage.removeItem('scrollPosition');
+
+  // Temporarily disconnect the IntersectionObserver to prevent conflicts while restoring scroll.
+  observer.disconnect();
+
+  /**
+   * Recursively loads pages until the document is tall enough to scroll to the saved position.
+   */
+  const loadUntilScrollable = async () => {
+    await loadNextPage();
+
+    // Wait for the next frame to allow the DOM to update.
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
+    // If the page is still not tall enough and more pages are available, load more.
+    if (document.documentElement.scrollHeight < scrollPosition && currentPage) {
+      await loadUntilScrollable();
+    } else {
+      // Once the content is loaded, scroll to the saved position.
+      window.scrollTo(0, parseInt(scrollPosition, 10));
+      // Re-enable the IntersectionObserver for normal lazy loading.
+      observer.observe(observerTrigger);
+    }
+  };
+
+  await loadUntilScrollable();
+};
+
+// Start the initial load process.
+initialLoad();

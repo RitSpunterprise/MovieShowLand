@@ -33,7 +33,7 @@ export const setDynamicTheme = (imgElement) => {
 
             // Adjust text color for readability based on the average background brightness.
             const luminance = avgR * 0.299 + avgG * 0.587 + avgB * 0.114;
-            const textColor = luminance > 160 ? '#212529' : '#f5f5f5'; // Adjusted threshold to 128 for better contrast with the overlay
+            const textColor = luminance > 170 ? '#212529' : '#f5f5f5'; // Adjusted threshold to 128 for better contrast with the overlay
             document.body.style.color = textColor;
 
             // Apply theme to list items.
@@ -59,7 +59,7 @@ export const setDynamicTheme = (imgElement) => {
             // Apply theme to the navbar.
             const navbar = document.querySelector('.navbar');
             if (navbar) {
-                navbar.style.backgroundColor = `rgba(${color1Complete}, 0.8)`;
+                navbar.style.backgroundColor = `rgba(${color1Complete}, 1)`;
                 navbar.style.border = 'none';
                 navbar.style.color = `rgb(${color2Complete})`;
             }
