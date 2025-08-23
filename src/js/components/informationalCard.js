@@ -1,4 +1,4 @@
-import { imageUrlF } from '../utils/imageURL.js';
+import { imageUrlF, defaultUrl } from '../utils/imageURL.js';
 
 /**
  * Creates an informational card for a movie or TV series.
@@ -7,25 +7,26 @@ import { imageUrlF } from '../utils/imageURL.js';
  */
 export const createInformationalCard = (item) => {
     const row = document.createElement('div');
-    row.className = 'row d-flex flex-row justify-content-center align-items-center';
+    row.className = 'row d-flex flex-row justify-content-center align-items-center py-4';
 
     // Image column
     const imageCol = document.createElement('div');
     imageCol.className = 'col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-8 col-10';
     const img = document.createElement('img');
     img.id = 'title-image';
-    img.className = 'img-fluid rounded';
+    img.className = 'card-img-top img-fluid rounded';
     img.alt = item.primaryTitle;
     img.crossOrigin = "Anonymous"; // Needed for ColorThief
+    img.loading = 'lazy';
+    img.decoding = "async";
+    img.fetchPriority = "high";
 
-    const defaultUrl = 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg';
     const imageUrl = item.primaryImage?.url;
-
     if (imageUrl) {
         const urlWithoutProtocol = imageUrl.replace('/^(https?:)?\/\//', '');
-        img.src = imageUrlF(urlWithoutProtocol, defaultUrl, { w: 550, h: 800, fit: 'cover', q: 85 });
+        img.src = imageUrlF(urlWithoutProtocol, defaultUrl(), { w: 400, h: 600, fit: 'cover', q: 55 });
     } else {
-        img.src = defaultUrl;
+        img.src = defaultUrl();
     }
 
     imageCol.appendChild(img);
@@ -35,12 +36,15 @@ export const createInformationalCard = (item) => {
     detailsCol.className = 'col-xxl-6 col-xl-8 col-lg-10 col-md-12 d-flex flex-column justify-content-center mt-3 mb-5';
 
     const titleContainer = document.createElement('div')
-    titleContainer.className = 'title-container rounded mb-2';
+    titleContainer.className = 'title-container rounded mb-3';
     const title = document.createElement('h1');
-    title.className = 'text-center';
+    title.className = 'text-center p-1';
     title.textContent = `${item.primaryTitle} (${item.startYear})`;
     titleContainer.appendChild(title)
 
+    const plotTitle = document.createElement('h2');
+    plotTitle.className = 'text-center';
+    plotTitle.textContent = 'Overview'
     const plot = document.createElement('p');
     plot.className = 'text-center';
     plot.textContent = item.plot;
@@ -52,11 +56,10 @@ export const createInformationalCard = (item) => {
     const createListItem = (label, value, additionalInfo = '') => {
         const li = document.createElement('li');
         li.className = 'list-group-item';
+        li.append(document.createTextNode(`${label}: `))
         const strong = document.createElement('strong');
-        strong.textContent = `${label}: `;
+        strong.textContent = `${value} ${additionalInfo}`;
         li.appendChild(strong);
-        li.append(document.createTextNode(value));
-        li.append(document.createTextNode(` ${additionalInfo}`));
         return li;
     };
 
@@ -82,7 +85,7 @@ export const createInformationalCard = (item) => {
         createListItem('Running time', runTime, !(runTime === 'N/A') ? 'minutes' : '')
     );
 
-    detailsCol.append(titleContainer, plot, list);
+    detailsCol.append(titleContainer, plotTitle, plot, list);
     row.append(imageCol, detailsCol);
 
     return row;

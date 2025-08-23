@@ -5,10 +5,10 @@ const colorThief = new ColorThief();
  * Sets a dynamic theme on the page based on the color palette of an image.
  * @param {HTMLImageElement} imgElement The image element to extract colors from.
  */
-export const setDynamicTheme = (imgElement) => {
+export const setDynamicTheme = async (imgElement) => {
     try {
         // Extract a 5-color palette from the image.
-        const palette = colorThief.getPalette(imgElement, 7);
+        const palette = colorThief.getPalette(imgElement, 5);
 
         if (palette && palette.length > 1) {
             const [color1, color2, color3, color4, color5] = palette;
@@ -33,7 +33,10 @@ export const setDynamicTheme = (imgElement) => {
 
             // Adjust text color for readability based on the average background brightness.
             const luminance = avgR * 0.299 + avgG * 0.587 + avgB * 0.114;
-            const textColor = luminance > 170 ? '#212529' : '#f5f5f5'; // Adjusted threshold to 128 for better contrast with the overlay
+            // Adjust text color for readability based on the color 1 background brightness.
+            const luminanceColor1 = color1[0] * 0.299 + color1[1] * 0.587 + color1[2] * 0.114;
+            // Adjusted threshold to 128 for better contrast with the overlay
+            const textColor = luminance > 170 ? '#212529' : '#f5f5f5';
             document.body.style.color = textColor;
 
             // Apply theme to list items.
@@ -50,8 +53,9 @@ export const setDynamicTheme = (imgElement) => {
             const titleContainer = document.querySelector('.title-container');
             const titleElement = document.querySelector('h1');
             if (titleContainer && titleElement) {
-                const containerColor = `rgba(${color1Complete}, 0.6)`;
-                const titleColor = `rgb(${color2Complete})`;
+                const containerColor = `rgba(${color1Complete}, 0.9)`;
+                // const titleColor = `rgb(${color2Complete})`;
+                const titleColor = luminanceColor1 > 160 ? '#212529' : '#f5f5f5';;
                 titleContainer.style.backgroundColor = containerColor;
                 titleElement.style.color = titleColor;
             }
@@ -61,7 +65,8 @@ export const setDynamicTheme = (imgElement) => {
             if (navbar) {
                 navbar.style.backgroundColor = `rgba(${color1Complete}, 1)`;
                 navbar.style.border = 'none';
-                navbar.style.color = `rgb(${color2Complete})`;
+                // navbar.style.color = `rgb(${color2Complete})`;
+                navbar.style.color = luminanceColor1 > 160 ? '#212529' : '#f5f5f5';
             }
         }
     } catch (error) {

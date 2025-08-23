@@ -8,7 +8,7 @@ const titleContainer = document.getElementById('title-container');
  * Renders the title information on the page.
  * @param {object} item - The title data object.
  */
-const renderTitle = (item) => {
+const renderTitle = async (item) => {
     // Clear previous content
     titleContainer.textContent = '';
 
@@ -32,10 +32,14 @@ const renderTitle = (item) => {
     if (titleImage) {
         // titleImage.crossOrigin is set within the component
         if (titleImage.complete) {
-            setDynamicTheme(titleImage);
+            await setDynamicTheme(titleImage);
+            loadCurtain();
+            NProgress.done();
         } else {
-            titleImage.addEventListener('load', () => {
-                setDynamicTheme(titleImage);
+            titleImage.addEventListener('load', async () => {
+                await setDynamicTheme(titleImage);
+                loadCurtain();
+                NProgress.done();
             });
         }
     }
@@ -45,13 +49,25 @@ const renderTitle = (item) => {
  * Fetches and renders the title information when the page loads.
  */
 document.addEventListener('DOMContentLoaded', async () => {
-    // Get the title ID from the URL query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const titleId = urlParams.get('id');
+    try {
+        // Get the title ID from the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const titleId = urlParams.get('id');
 
-    if (titleId) {
-        // Fetch the title data by ID and render it
-        const data = await getTitleById(titleId);
-        renderTitle(data);
+        if (titleId) {
+            // Fetch the title data by ID and render it
+            const data = await getTitleById(titleId);
+            await renderTitle(data);
+        }
+    } catch (error) {
+        console.error('Error fetching and rendering title:', error);
+        // Optionally, render an error message to the user
     }
 });
+
+const loadCurtain = () => {
+    //Preloader
+    let preloadContainer = document.getElementById("load_curtain");
+    preloadContainer.style.visibility = 'hidden';
+    preloadContainer.style.opacity = '0';
+}
