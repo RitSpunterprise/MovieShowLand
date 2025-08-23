@@ -1,4 +1,4 @@
-import { imageUrlF } from '../utils/imageURL.js';
+import { imageUrlF, defaultUrl } from '../utils/imageURL.js';
 
 /**
  * Creates a movie card element from a movie data object.
@@ -16,23 +16,33 @@ export const createPrincipalCard = (item) => {
     titleLink.href = `src/pages/titlesInfo.html?id=${item.id}`;
 
     const img = document.createElement('img');
+    img.id = 'card-image'
     img.className = 'card-img-top lazy'; // Add a 'lazy' class for the observer to target
+    img.loading = 'lazy';
+    img.decoding = "async";
+    img.fetchPriority = "high";
 
     // Use a placeholder image initially
-    const defaultUrl = 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg';
-    img.src = defaultUrl;
+    img.src = defaultUrl();
 
     // Store the actual image URL in a data attribute, resizing and compressing it with an image proxy
     const imageUrl = item['primaryImage']?.url;
     //console.log(`Image for ${item.primaryTitle}:`, imageUrl)
 
     if (imageUrl) {
-        // Use an image proxy to resize and compress the image, removing the protocol
         const urlWithoutProtocol = imageUrl.replace('/^https?:\/\//', '');
-        img.src = imageUrlF(urlWithoutProtocol, defaultUrl, { w: 300, h: 450, fit: 'cover', q: 80 })
+        const imageUrlP = imageUrlF(urlWithoutProtocol, defaultUrl(), { w: 300, h: 450, fit: 'cover', q: 45 })
+
+        fetch(imageUrlP, { priority: 'high' })
+            .then(response => response.blob())
+            .then(blob => {
+
+                img.setAttribute('src', URL.createObjectURL(blob));
+            })
+            .catch(error => console.error("Error fetching dynamic image:", error));
 
     } else {
-        img.src = defaultUrl;
+        img.setAttribute('src', defaultUrl());
     }
 
     img.alt = `Poster for ${item['primaryTitle']}`;

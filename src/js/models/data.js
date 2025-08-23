@@ -11,7 +11,9 @@ export const getTitlesData = async (pageToken = '') => {
     url.searchParams.append('pageToken', pageToken); //e.g 'https://api.imdbapi.dev/titles?pageToken=${item.nextPageToken} = https://api.imdbapi.dev/titles?pageToken="fsdlkfjdsajfsj"'
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            priority: 'high',
+        });
 
         if (!response.ok) {
             throw new Error(`API request failed with status: ${response.status} ${response.statusText}`);
@@ -33,7 +35,9 @@ export const getTitlesData = async (pageToken = '') => {
 export const getTitleById = async (id) => {
     const url = new URL(`${config.API_URL}/${id}`);
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            priority: 'high',
+        });
 
         if (!response.ok) {
             throw new Error(`API request failed with status: ${response.status} ${response.statusText}`);

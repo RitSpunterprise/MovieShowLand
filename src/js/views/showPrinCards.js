@@ -86,7 +86,7 @@ const observer = new IntersectionObserver((entries) => {
     loadNextPage();
   }
 }, {
-  rootMargin: '100px' // Load content 100px before it enters the viewport
+  rootMargin: '800px' // Load content 800px before it enters the viewport
 });
 
 /**
@@ -96,6 +96,10 @@ const observer = new IntersectionObserver((entries) => {
  */
 const initialLoad = async () => {
   const scrollPosition = sessionStorage.getItem('scrollPosition');
+  //Quit Preloader
+  const preloadContainer = document.getElementById("load_curtain");
+  preloadContainer.style.visibility = 'hidden';
+  preloadContainer.style.opacity = '0';
 
   // If no scroll position is saved, perform a normal load.
   if (!scrollPosition) {
@@ -116,6 +120,11 @@ const initialLoad = async () => {
   const loadUntilScrollable = async () => {
     await loadNextPage();
 
+    //Add Preloader
+    const preloadContainer = document.getElementById("load_curtain");
+    preloadContainer.style.visibility = 'visible';
+    preloadContainer.style.opacity = '1';
+
     // Wait for the next frame to allow the DOM to update.
     await new Promise(resolve => requestAnimationFrame(resolve));
 
@@ -127,6 +136,13 @@ const initialLoad = async () => {
       window.scrollTo(0, parseInt(scrollPosition, 10));
       // Re-enable the IntersectionObserver for normal lazy loading.
       observer.observe(observerTrigger);
+
+      setTimeout(() => {
+        //Quit LoadCurtain
+        preloadContainer.style.visibility = 'hidden';
+        preloadContainer.style.opacity = '0';
+      }, 300);
+
     }
   };
 
