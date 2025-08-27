@@ -1,4 +1,4 @@
-# MoviesShowLand
+# MovieShowLand
 
 A clean and simple web application to browse a list of movies and TV shows, fetched from a remote API.
 
@@ -63,5 +63,7 @@ The project follows a modular structure:
 
 ## 🔌 API Reference
 
-This project uses the IMDb API (Unofficial) to fetch movie and show data.
--   **Endpoint used:** `https://api.imdbapi.dev/titles`
+This project uses the Free IMDb API to fetch movie and show data.
+-   **Endpoint used for main page titles:** `https://api.imdbapi.dev/titles?pageToken=`
+-   **Endpoint used for info page titles:** `https://api.imdbapi.dev/title/{titleid}`
+-   **Endpoint used for search titles bar:** `https://api.imdbapi.dev/search/titles?query=`
