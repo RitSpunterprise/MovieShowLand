@@ -5,9 +5,11 @@ const body = document.body;
 
 //Icons
 const sunIcon = document.createElement('i');
-sunIcon.className = 'bx bxs-light-bulb-on bx-sm'
+sunIcon.className = 'bi bi-sun-fill'
+sunIcon.style = "font-size: 1.5rem;";
 const moonIcon = document.createElement('i');
-moonIcon.className = 'bx bxs-moon-star bx-sm'
+moonIcon.className = 'bi bi-moon-stars-fill'
+moonIcon.style = "font-size: 1.3rem;";
 
 //Add the two icons
 themeToggle.appendChild(sunIcon);

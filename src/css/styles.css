@@ -7,12 +7,18 @@
     --card-bg-light: rgba(255, 255, 255, 0.5);
     --card-border-dark: #444;
     --card-border-light: #dee2e6;
-    --navbar-bg-color: rgb(96, 48, 140);
+    --navbar-bg-color: #803649;
     --navbar-border-dark: #707070;
     --navbar-border-light: #3f3f3f;
+    --link-hover-color: #919498;
 }
 
 /* --navbar-bg-color: rgba(38, 64, 136, 0.9); */
+
+html {
+    scroll-behavior: initial !important;
+    will-change: transform;
+}
 
 body {
     min-height: 100vh;
@@ -31,6 +37,26 @@ body.light-mode {
     background: var(--bg-gradient-light);
     background-color: #FFFFFF;
     color: var(--text-color-light);
+}
+
+.dark-mode #imdb-thanks a:link,
+.dark-mode #imdb-thanks a:visited {
+    color: var(--text-color-dark);
+}
+
+.dark-mode #imdb-thanks a:hover,
+.dark-mode #imdb-thanks a:active {
+    color: var(--link-hover-color);
+}
+
+.light-mode #imdb-thanks a:link,
+.light-mode #imdb-thanks a:visited {
+    color: var(--text-color-light);
+}
+
+.light-mode #imdb-thanks a:hover,
+.light-mode #imdb-thanks a:active {
+    color: var(--link-hover-color);
 }
 
 #load_curtain {
@@ -184,27 +210,13 @@ body.light-mode {
     background: yellow;
 }
 
-.light-mode #nprogress .bar {
-    background: teal;
-}
-
-.dark-mode #nprogress .bar {
-    background: blueviolet;
-}
-
 #nprogress .spinner-icon {
     border-top-color: yellow;
     border-left-color: yellow;
 }
 
-.light-mode #nprogress .spinner-icon {
-    border-top-color: teal;
-    border-left-color: teal;
-}
-
-.dark-mode #nprogress .spinner-icon {
-    border-top-color: blueviolet;
-    border-left-color: blueviolet;
+#nprogress .spinner {
+    display: none;
 }
 
 /* Fancy blur effect */
@@ -214,35 +226,7 @@ body.light-mode {
     right: 0px;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px yellow, 0 0 5px yellow;
-    opacity: 1.0;
-
-    -webkit-transform: rotate(3deg) translate(0px, -4px);
-    -ms-transform: rotate(3deg) translate(0px, -4px);
-    transform: rotate(3deg) translate(0px, -4px);
-}
-
-.light-mode #nprogress .peg {
-    display: block;
-    position: absolute;
-    right: 0px;
-    width: 100px;
-    height: 100%;
-    box-shadow: 0 0 10px teal, 0 0 5px teal;
-    opacity: 1.0;
-
-    -webkit-transform: rotate(3deg) translate(0px, -4px);
-    -ms-transform: rotate(3deg) translate(0px, -4px);
-    transform: rotate(3deg) translate(0px, -4px);
-}
-
-.dark-mode #nprogress .peg {
-    display: block;
-    position: absolute;
-    right: 0px;
-    width: 100px;
-    height: 100%;
-    box-shadow: 0 0 10px blueviolet, 0 0 5px blueviolet;
+    box-shadow: none;
     opacity: 1.0;
 
     -webkit-transform: rotate(3deg) translate(0px, -4px);

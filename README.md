@@ -12,6 +12,8 @@ A clean and simple web application to browse a list of movies and TV shows, fetc
 -   Dynamic theme that adapts to the dominant color of the movie/show poster.
 -   Robust error handling for API requests.
 -   Built with modern JavaScript (ES Modules, Async/Await).
+-   Search Functionality: Allows users to search for specific titles.
+-   State Preservation: Remembers the user's search query when navigating back to the main page.
 
 ## 🛠️ Technologies Used
 
