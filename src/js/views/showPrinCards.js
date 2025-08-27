@@ -3,13 +3,15 @@
  * It uses an IntersectionObserver to load more content as the user scrolls and handles restoring the scroll position when navigating back to the page.
  */
 
-import { getTitlesData } from '../models/data.js';
+import { getTitlesData, searchTitleByName } from '../models/data.js';
 import { createPrincipalCard } from '../components/principalCard.js';
 
 const container = document.getElementById('cards');
 const loadingIndicator = document.getElementById('loading');
 const errorDisplay = document.getElementById('error');
 const observerTrigger = document.getElementById('observer-trigger');
+//Preloader LoadCurtain
+const preloadContainer = document.getElementById("load_curtain");
 
 let currentPage = '';
 let isLoading = false;
@@ -34,23 +36,58 @@ const displayMovies = async (items) => {
     // Save scroll position in session storage when a card is clicked before navigating.
     movieCard.addEventListener('click', () => {
       sessionStorage.setItem('scrollPosition', window.scrollY);
-      NProgress.start();
+      // NProgress.start();
     });
     container.appendChild(movieCard);
   });
 };
 
 /**
+ * Handles the search form submission.
+ * It prevents the default form action, performs a search, and updates the display.
+ */
+document.getElementById('search-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const inputSearch = document.getElementById('input-search').value;
+  //Fade in preloader
+  fadeInPreloader();
+
+  if (!inputSearch) {
+    sessionStorage.removeItem('searchQuery');
+    window.location.reload();
+    return;
+  }
+  sessionStorage.setItem('searchQuery', inputSearch); // Save search query
+  const items = await searchTitleByName(inputSearch);
+  clearCardsContainer(container);
+  // Once the content is loaded, scroll to the inicial position.
+  window.scrollTo(0, parseInt(0, 10));
+  loadNextPage(items);
+  //Fade out preloader
+  fadeOutPreloader(300);
+});
+
+/**
  * Fetches the next page of data from the API and displays it.
  * Handles loading states and errors.
+ * @param {Object} [items=undefined] - An optional object containing titles and pagination info to load directly.
  */
-const loadNextPage = async () => {
+const loadNextPage = async (items = undefined) => {
   if (isLoading) return;
   isLoading = true;
   loadingIndicator.style.display = 'block';
 
   try {
-    const items = await getTitlesData(currentPage);
+    if (!(items)) {
+      const searchQuery = sessionStorage.getItem('searchQuery');
+      if (searchQuery) {
+        console.log('Hello')
+        items = await searchTitleByName(searchQuery);
+      } else {
+        items = await getTitlesData(currentPage);
+      }
+    }
+
     if (items['titles'].length > 0) {
       // Concatenate new items with existing ones
       allItems = [...allItems, ...items['titles']];
@@ -96,15 +133,24 @@ const observer = new IntersectionObserver((entries) => {
  */
 const initialLoad = async () => {
   const scrollPosition = sessionStorage.getItem('scrollPosition');
+  const searchQuery = sessionStorage.getItem('searchQuery');
+
   //Quit Preloader
-  const preloadContainer = document.getElementById("load_curtain");
-  preloadContainer.style.visibility = 'hidden';
-  preloadContainer.style.opacity = '0';
+  fadeOutPreloader()
+
+  if (searchQuery) {
+    document.getElementById('input-search').value = searchQuery;
+    // const items = await searchTitleByName(searchQuery);
+    // clearCardsContainer(container);
+    // loadNextPage(items);
+  }
 
   // If no scroll position is saved, perform a normal load.
   if (!scrollPosition) {
     observer.observe(observerTrigger);
-    await loadNextPage();
+    if (!searchQuery) {
+      await loadNextPage();
+    }
     return;
   }
 
@@ -118,12 +164,16 @@ const initialLoad = async () => {
    * Recursively loads pages until the document is tall enough to scroll to the saved position.
    */
   const loadUntilScrollable = async () => {
-    await loadNextPage();
+    if (searchQuery) {
+      const items = await searchTitleByName(searchQuery);
+      clearCardsContainer(container);
+      loadNextPage(items);
+    } else {
+      await loadNextPage();
+    }
 
     //Add Preloader
-    const preloadContainer = document.getElementById("load_curtain");
-    preloadContainer.style.visibility = 'visible';
-    preloadContainer.style.opacity = '1';
+    fadeInPreloader();
 
     // Wait for the next frame to allow the DOM to update.
     await new Promise(resolve => requestAnimationFrame(resolve));
@@ -136,17 +186,60 @@ const initialLoad = async () => {
       window.scrollTo(0, parseInt(scrollPosition, 10));
       // Re-enable the IntersectionObserver for normal lazy loading.
       observer.observe(observerTrigger);
-
-      setTimeout(() => {
-        //Quit LoadCurtain
-        preloadContainer.style.visibility = 'hidden';
-        preloadContainer.style.opacity = '0';
-      }, 300);
-
+      //Quit preloader
+      fadeOutPreloader(300);
     }
   };
 
   await loadUntilScrollable();
+};
+
+/**
+ * Removes all child elements from a given container.
+ * @param {HTMLElement} container - The container element to clear.
+ */
+const clearCardsContainer = (container) => {
+  if (container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+  }
+}
+
+/**
+ * Fades in the preloader element, making it visible.
+ */
+const fadeInPreloader = () => {
+  //Show preloader LoadCurtain
+  preloadContainer.style.visibility = 'visible';
+  preloadContainer.style.opacity = '1';
+}
+
+/**
+ * Fades out the preloader element after a specified timeout.
+ * @param {number} [timeOut=50] - The delay in milliseconds before the preloader fades out.
+ */
+const fadeOutPreloader = (timeOut = 50) => {
+  setTimeout(() => {
+    //Quit LoadCurtain
+    preloadContainer.style.visibility = 'hidden';
+    preloadContainer.style.opacity = '0';
+  }, timeOut);
+}
+
+/**
+ * Clears the search query from session storage and reloads the page when the navbar brand is clicked.
+ */
+document.querySelector('.navbar-brand').addEventListener('click', () => {
+  sessionStorage.removeItem('searchQuery');
+  window.location.reload();
+});
+
+/**
+ * Finalizes the NProgress loading bar when the window has fully loaded.
+ */
+window.onload = function () {
+  NProgress.done();
 };
 
 // Start the initial load process.
