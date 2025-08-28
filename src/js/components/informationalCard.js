@@ -38,7 +38,7 @@ export const createInformationalCard = (item) => {
     const titleContainer = document.createElement('div')
     titleContainer.className = 'title-container rounded mb-3';
     const title = document.createElement('h1');
-    title.className = 'text-center p-1';
+    title.className = 'text-center mt-1 mb-2 p-1';
     title.textContent = `${item.primaryTitle} (${item.startYear})`;
     titleContainer.appendChild(title)
 
