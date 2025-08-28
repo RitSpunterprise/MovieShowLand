@@ -5,7 +5,7 @@ A clean and simple web application to browse a list of movies and TV shows, fetc
 <!-- Optional: Add a screenshot of your application -->
 <!-- ![MoviesShowLand Screenshot](./screenshot.png) -->
 
-<img width="1901" height="1073" alt="preview" src="https://github.com/user-attachments/assets/6659d60d-c4ac-4a1c-87a7-0b0a2343c9c1" />
+<img width="1904" height="1070" alt="social-preview" src="https://github.com/user-attachments/assets/ddee821a-500d-4e10-aa51-7988ecfd36c2" />
 
 ## ✨ Features
 
