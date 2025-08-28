@@ -68,6 +68,16 @@ export const setDynamicTheme = async (imgElement) => {
                 // navbar.style.color = `rgb(${color2Complete})`;
                 navbar.style.color = luminanceColor1 > 160 ? '#212529' : '#f5f5f5';
             }
+
+            // Apply theme to the metaTag theme-color for status bar on some devices.
+            const metaTag = document.querySelector('meta[name="theme-color"]');
+            if (!metaTag) {
+                metaTag = document.createElement('meta');
+                metaTag.name = "theme-color";
+                document.head.appendChild(metaTag);
+            }
+            // Set the new theme color
+            metaTag.content = `rgba(${color1Complete}, 1)`;
         }
     } catch (error) {
         console.error('Error applying dynamic theme:', error);
