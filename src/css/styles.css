@@ -68,7 +68,7 @@ body.light-mode {
     -webkit-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .card-img-top {
