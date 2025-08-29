@@ -6,16 +6,17 @@
 import { getTitlesData, searchTitleByName } from '../models/data.js';
 import { createPrincipalCard } from '../components/principalCard.js';
 
+// DOM elements
 const container = document.getElementById('cards');
 const loadingIndicator = document.getElementById('loading');
 const errorDisplay = document.getElementById('error');
 const observerTrigger = document.getElementById('observer-trigger');
-//Preloader LoadCurtain
 const preloadContainer = document.getElementById("load_curtain");
 
-let currentPage = '';
-let isLoading = false;
-let allItems = [];
+// State variables
+let currentPage = ''; // Manages the token for the next page in the API.
+let isLoading = false; // Avoids multiple simultaneous page loads.
+let allItems = []; // Stores all the titles loaded so far.
 
 /**
  * Appends a list of movie/TV show items to the main container.
@@ -43,28 +44,62 @@ const displayMovies = async (items) => {
 };
 
 /**
+ * Fetches and renders the title information when the page loads.
+ * It checks if a search query is present in the URL and loads the search results.
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    // Get the title query from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('query');
+
+    if (!query) {
+      //console.log('null')
+      sessionStorage.removeItem('searchQuery');
+      document.getElementById('input-search').value = ''
+      return;
+    }
+
+    //console.log('not null')
+    // Fetch the titles data by query and render it
+    document.getElementById('input-search').value = query
+    const inputSearch = query;
+    //Fade in preloader
+    fadeInPreloader();
+
+    if (!inputSearch) {
+      sessionStorage.removeItem('searchQuery');
+      window.location.reload();
+      return;
+    }
+
+    sessionStorage.setItem('searchQuery', inputSearch); // Save search query
+    const items = await searchTitleByName(inputSearch);
+    clearCardsContainer(container);
+    // Once the content is loaded, scroll to the inicial position.
+    window.scrollTo(0, parseInt(0, 10));
+    loadNextPage(items);
+    //Fade out preloader
+    fadeOutPreloader(300);
+
+  } catch (error) {
+    console.error('Error fetching and rendering titles:', error);
+    // Optionally, render an error message to the user
+  }
+});
+
+
+/**
  * Handles the search form submission.
  * It prevents the default form action, performs a search, and updates the display.
  */
 document.getElementById('search-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const inputSearch = document.getElementById('input-search').value;
-  //Fade in preloader
-  fadeInPreloader();
-
-  if (!inputSearch) {
-    sessionStorage.removeItem('searchQuery');
-    window.location.reload();
-    return;
-  }
-  sessionStorage.setItem('searchQuery', inputSearch); // Save search query
-  const items = await searchTitleByName(inputSearch);
-  clearCardsContainer(container);
-  // Once the content is loaded, scroll to the inicial position.
-  window.scrollTo(0, parseInt(0, 10));
-  loadNextPage(items);
-  //Fade out preloader
-  fadeOutPreloader(300);
+  e.preventDefault()
+  const inputValue = document.getElementById('input-search')
+  const url = new URL(window.location);
+  url.searchParams.set('query', inputValue.value);
+  //Go to the new URL to load titles
+  window.location.href = url;
 });
 
 /**
@@ -81,7 +116,7 @@ const loadNextPage = async (items = undefined) => {
     if (!(items)) {
       const searchQuery = sessionStorage.getItem('searchQuery');
       if (searchQuery) {
-        console.log('Hello')
+        console.log('There are search query session storage')
         items = await searchTitleByName(searchQuery);
       } else {
         items = await getTitlesData(currentPage);
@@ -226,14 +261,6 @@ const fadeOutPreloader = (timeOut = 50) => {
     preloadContainer.style.opacity = '0';
   }, timeOut);
 }
-
-/**
- * Clears the search query from session storage and reloads the page when the navbar brand is clicked.
- */
-document.querySelector('.navbar-brand').addEventListener('click', () => {
-  sessionStorage.removeItem('searchQuery');
-  window.location.reload();
-});
 
 /**
  * Finalizes the NProgress loading bar when the window has fully loaded.
