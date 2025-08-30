@@ -35,17 +35,21 @@ export const setDynamicTheme = async (imgElement) => {
             const luminance = avgR * 0.299 + avgG * 0.587 + avgB * 0.114;
             // Adjust text color for readability based on the color 1 background brightness.
             const luminanceColor1 = color1[0] * 0.299 + color1[1] * 0.587 + color1[2] * 0.114;
+            const luminanceColor2 = color2[0] * 0.299 + color2[1] * 0.587 + color2[2] * 0.114;
             // Adjusted threshold to 128 for better contrast with the overlay
-            const textColor = luminance > 170 ? '#212529' : '#f5f5f5';
-            document.body.style.color = textColor;
+            const bodyTextColor = luminance > 180 ? '#212529' : '#f5f5f5';
+            const tableTextColor = luminanceColor2 > 160 ? '#212529' : '#f5f5f5';
+            document.body.style.color = bodyTextColor;
 
             // Apply theme to list items.
-            const listItems = document.querySelectorAll('.list-group-item');
+            const listItems = document.querySelectorAll('.table-row-item');
+
             if (listItems) {
                 listItems.forEach(item => {
-                    item.style.backgroundColor = `rgba(${color4Complete}, 0.3)`;
-                    item.style.color = textColor;
-                    item.style.borderColor = `rgba(${color1Complete}, 1)`
+                    item.style.setProperty('--bs-table-bg', `rgba(${color2Complete}, 1)`);
+                    item.style.setProperty('--bs-table-color', tableTextColor);
+                    item.style.setProperty('--bs-table-striped-color', tableTextColor)
+                    item.style.setProperty('--bs-table-striped-bg', luminanceColor2 > 160 ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)')
                 });
             }
 
@@ -55,7 +59,7 @@ export const setDynamicTheme = async (imgElement) => {
             if (titleContainer && titleElement) {
                 const containerColor = `rgba(${color1Complete}, 0.9)`;
                 // const titleColor = `rgb(${color2Complete})`;
-                const titleColor = luminanceColor1 > 160 ? '#212529' : '#f5f5f5';;
+                const titleColor = luminanceColor1 > 160 ? '#212529' : '#f5f5f5';
                 titleContainer.style.backgroundColor = containerColor;
                 titleElement.style.color = titleColor;
             }

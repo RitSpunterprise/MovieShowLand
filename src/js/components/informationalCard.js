@@ -49,18 +49,28 @@ export const createInformationalCard = (item) => {
     plot.className = 'text-center';
     plot.textContent = item.plot;
 
-    const list = document.createElement('ul');
-    list.className = 'list-group rounded';
+    //START OF TABLE
+    const tableContainer = document.createElement('div')
+    tableContainer.className = '';
 
-    // Helper to create list items
-    const createListItem = (label, value, additionalInfo = '') => {
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.append(document.createTextNode(`${label}: `))
-        const strong = document.createElement('strong');
-        strong.textContent = `${value} ${additionalInfo}`;
-        li.appendChild(strong);
-        return li;
+    const table = document.createElement('table')
+    table.classList = 'table table-striped rounded-3 overflow-hidden m-0'
+
+    const tableBody = document.createElement('tbody')
+
+    // Helper to create table row items
+    const creatTableRow = (label, value, additionalInfo = '') => {
+        const tableRow = document.createElement('tr')
+        tableRow.className = 'table-row-item';
+
+        const th = document.createElement('th')
+        th.setAttribute('scope', 'row')
+        th.append(document.createTextNode(`${label} `))
+
+        const td = document.createElement('td');
+        td.textContent = `${value} ${additionalInfo}`;
+        tableRow.append(th, td)
+        return tableRow;
     };
 
     const type = item.type === 'movie' ? 'Movie' : 'TV Series' || 'N/A';
@@ -73,19 +83,23 @@ export const createInformationalCard = (item) => {
     const country = item['originCountries']?.map(c => c.name).join(', ') || 'N/A';
     const runTime = (item['runtimeSeconds'] / 60) || 'N/A';
 
-    list.append(
-        createListItem('Type', type),
-        createListItem('Directors', directors),
-        createListItem('Writers', writers),
-        createListItem('Stars', stars),
-        createListItem('Genres', genres),
-        createListItem('Rating', rating),
-        createListItem('Spoken Languages', lang),
-        createListItem('Origin Country', country),
-        createListItem('Running time', runTime, !(runTime === 'N/A') ? 'minutes' : '')
+    tableBody.append(
+        creatTableRow('Type', type),
+        creatTableRow('Directors', directors),
+        creatTableRow('Writers', writers),
+        creatTableRow('Stars', stars),
+        creatTableRow('Genres', genres),
+        creatTableRow('Rating', rating),
+        creatTableRow('Spoken Languages', lang),
+        creatTableRow('Origin Country', country),
+        creatTableRow('Running time', runTime, !(runTime === 'N/A') ? 'minutes' : '')
     );
 
-    detailsCol.append(titleContainer, plotTitle, plot, list);
+    table.appendChild(tableBody)
+    tableContainer.appendChild(table)
+    //END OF TABLE
+
+    detailsCol.append(titleContainer, plotTitle, plot, tableContainer);
     row.append(imageCol, detailsCol);
 
     return row;

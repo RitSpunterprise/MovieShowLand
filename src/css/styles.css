@@ -231,3 +231,16 @@ body.light-mode {
     -ms-transform: rotate(3deg) translate(0px, -4px);
     transform: rotate(3deg) translate(0px, -4px);
 }
+
+thead,
+tbody,
+tfoot,
+tr,
+td {
+  border: none;
+}
+
+th {
+    border-right: 1px solid;
+    border-bottom: none;
+}
