@@ -53,8 +53,8 @@ export const createPrincipalCard = (item) => {
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body d-flex flex-column';
 
-    const title = document.createElement('h5');
-    title.className = 'card-title text-center mb-4';
+    const title = document.createElement('h2');
+    title.className = 'card-title text-center mb-4 h5';
     title.textContent = item['primaryTitle'];
 
     // Helper to create <p><strong>Label:</strong> Value</p> elements
