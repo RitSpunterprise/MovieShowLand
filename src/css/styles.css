@@ -139,7 +139,7 @@ body.light-mode {
 }
 
 .dark-mode .navbar-brand,
-.dark-mode .btn-outline-light {
+.dark-mode .btn-outline-light, .dark-mode .btn-outline-dark {
     color: var(--text-color-dark);
     border: none;
 }
@@ -149,14 +149,14 @@ body.light-mode {
 }
 
 .light-mode .navbar-brand,
-.light-mode .btn-outline-light {
+.light-mode .btn-outline-light, .light-mode .btn-outline-dark  {
     color: var(--text-color-dark);
     border: none;
 }
 
 .light-mode .btn-outline-light:hover {
-    background-color: var(--text-color-light);
-    color: var(--text-color-dark);
+    /*background-color: var(--text-color-light);*/
+    color: var(--text-color-light);
 }
 
 .navbar-brand {
@@ -167,32 +167,6 @@ body.light-mode {
 .navbar-brand:hover {
     transform: scale(1.08);
     /* Scale up the element slightly on hover by 0.8% */
-    color: var(--text-color-dark);
-}
-
-#load-trigger {
-    border: 1px solid;
-}
-
-.dark-mode #load-trigger {
-    background-color: var(--card-bg-dark);
-    color: var(--text-color-dark);
-    border-color: var(--card-border-dark);
-}
-
-.dark-mode #load-trigger:hover {
-    background-color: var(--text-color-dark);
-    color: var(--text-color-light);
-}
-
-.light-mode #load-trigger {
-    background-color: var(--text-color-dark);
-    color: var(--text-color-light);
-    border-color: var(--card-border-light);
-}
-
-.light-mode #load-trigger:hover {
-    background-color: var(--text-color-light);
     color: var(--text-color-dark);
 }
 
