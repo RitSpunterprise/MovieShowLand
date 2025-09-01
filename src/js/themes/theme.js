@@ -2,31 +2,25 @@
 const themeToggle = document.getElementById('theme-toggle');
 //Body
 const body = document.body;
-
-//Icons
-const sunIcon = document.createElement('i');
-sunIcon.className = 'bi bi-sun-fill'
-sunIcon.style = "font-size: 1.5rem;";
-const moonIcon = document.createElement('i');
-moonIcon.className = 'bi bi-moon-stars-fill'
-moonIcon.style = "font-size: 1.3rem;";
-
-//Add the two icons
-themeToggle.appendChild(sunIcon);
-themeToggle.appendChild(moonIcon);
+//Toggle icon
+const toggleIcon = document.getElementById('theme-toggle-icon');
 
 const applyTheme = (theme) => {
     if (theme === 'dark') {
         body.classList.add('dark-mode');
         body.classList.remove('light-mode');
-        themeToggle.removeChild(moonIcon);
-        themeToggle.appendChild(sunIcon);
+        //Sun icon
+        toggleIcon.src = './src/assets/images/icons/sun-fill.svg'
+        toggleIcon.className = 'mt-1'
+        toggleIcon.alt = 'Sun icon'
 
     } else {
         body.classList.add('light-mode');
         body.classList.remove('dark-mode');
-        themeToggle.removeChild(sunIcon);
-        themeToggle.appendChild(moonIcon);
+        //Moon icon
+        toggleIcon.src = './src/assets/images/icons/moon-fill.svg'
+        toggleIcon.className = 'mt-1'
+        toggleIcon.alt = 'Moon icon'
     }
 };
 
