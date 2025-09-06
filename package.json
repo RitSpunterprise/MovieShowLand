@@ -1,0 +1,21 @@
+{
+  "name": "movieshowland",
+  "version": "1.0.0",
+  "description": "A clean and simple web application to browse a list of movies and TV shows, fetched from a remote API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RitSpunterprise/MovieShowLand.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RitSpunterprise/MovieShowLand/issues"
+  },
+  "homepage": "https://github.com/RitSpunterprise/MovieShowLand#readme"
+}

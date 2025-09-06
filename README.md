@@ -50,16 +50,24 @@ The project follows a modular structure:
 
 ```
 /
-├── src/
-│   ├── js/
-│   │   ├── components/
-│   │   ├── config/
-│   │   ├── models/
-│   │   ├── themes/
-│   │   ├── utils/
-│   │   └── views/
-│   ├── css/
-│   └── assets/
+├── backend/
+│   └── src/
+│       └── auth/
+├── frontend/
+│   └── src/
+│       ├── auth/
+│       └── main/
+│           ├── assets/
+│           │   ├── fonts/
+│           │   └── images/
+│           ├── css/
+│           └── js/
+│               ├── components/
+│               ├── config/
+│               ├── models/
+│               ├── themes/
+│               ├── utils/
+│               └── views/
 └── index.html
 ```
 

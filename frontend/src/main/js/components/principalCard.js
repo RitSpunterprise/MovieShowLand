@@ -13,7 +13,7 @@ export const createPrincipalCard = (item) => {
     card.className = 'card h-100';
 
     const titleLink = document.createElement('a');
-    titleLink.href = `src/pages/titlesInfo.html?id=${item.id}`;
+    titleLink.href = `frontend/src/main/pages/titlesInfo.html?id=${item.id}`;
 
     const img = document.createElement('img');
     img.id = 'card-image'
@@ -30,7 +30,7 @@ export const createPrincipalCard = (item) => {
     //console.log(`Image for ${item.primaryTitle}:`, imageUrl)
 
     if (imageUrl) {
-        const urlWithoutProtocol = imageUrl.replace('/^https?:\/\//', '');
+        const urlWithoutProtocol = imageUrl.replace('/^https?s?:\/\//', '');
         const imageUrlP = imageUrlF(urlWithoutProtocol, defaultUrl(), { w: 300, h: 450, fit: 'cover', q: 45 })
 
         fetch(imageUrlP, { priority: 'high' })

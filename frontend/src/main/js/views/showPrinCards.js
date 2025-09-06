@@ -5,6 +5,7 @@
 
 import { getTitlesData, searchTitleByName } from '../models/data.js';
 import { createPrincipalCard } from '../components/principalCard.js';
+import { sanitizeInput } from '../utils/sanitizeInputs.js';
 
 // DOM elements
 const container = document.getElementById('cards');
@@ -51,18 +52,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Get the title query from the URL query parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('query');
+    const unsafeQuery = urlParams.get('query');
+    const query = sanitizeInput(unsafeQuery);
 
     if (!query) {
-      //console.log('null')
+      //console.log('no hay query')
       sessionStorage.removeItem('searchQuery');
-      document.getElementById('input-search').value = ''
+      document.getElementById('input-search').value = '';
+      //Quit Preloader
+      fadeOutPreloader()
       return;
     }
 
-    //console.log('not null')
+    //console.log('hola hay query')
     // Fetch the titles data by query and render it
-    document.getElementById('input-search').value = query
+    document.getElementById('input-search').value = query;
     const inputSearch = query;
     //Fade in preloader
     fadeInPreloader();
@@ -80,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.scrollTo(0, parseInt(0, 10));
     loadNextPage(items);
     //Fade out preloader
-    fadeOutPreloader(300);
+    fadeOutPreloader();
 
   } catch (error) {
     console.error('Error fetching and rendering titles:', error);
@@ -88,6 +92,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+/**
+ * Handles the 'pageshow' event to ensure the search input is correctly synchronized with the URL query parameter,
+ * especially when navigating back to the page from the browser's cache (bfcache).
+ */
+window.addEventListener('pageshow', async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const unsafeQuery = urlParams.get('query');
+  const query = sanitizeInput(unsafeQuery);
+  document.getElementById('input-search').value = query || '';
+});
 
 /**
  * Handles the search form submission.
@@ -95,9 +109,10 @@ document.addEventListener('DOMContentLoaded', async () => {
  */
 document.getElementById('search-form').addEventListener('submit', async (e) => {
   e.preventDefault()
-  const inputValue = document.getElementById('input-search')
+  const inputValue = document.getElementById('input-search');
+  const sanitizedQuery = sanitizeInput(inputValue.value);
   const url = new URL(window.location);
-  url.searchParams.set('query', inputValue.value);
+  url.searchParams.set('query', sanitizedQuery.trim());
   //Go to the new URL to load titles
   window.location.href = url;
 });
@@ -116,7 +131,7 @@ const loadNextPage = async (items = undefined) => {
     if (!(items)) {
       const searchQuery = sessionStorage.getItem('searchQuery');
       if (searchQuery) {
-        console.log('There are search query session storage')
+        //console.log('There are search query session storage')
         items = await searchTitleByName(searchQuery);
       } else {
         items = await getTitlesData(currentPage);
@@ -170,20 +185,12 @@ const initialLoad = async () => {
   const scrollPosition = sessionStorage.getItem('scrollPosition');
   const searchQuery = sessionStorage.getItem('searchQuery');
 
-  //Quit Preloader
-  fadeOutPreloader()
-
-  if (searchQuery) {
-    document.getElementById('input-search').value = searchQuery;
-    // const items = await searchTitleByName(searchQuery);
-    // clearCardsContainer(container);
-    // loadNextPage(items);
-  }
-
   // If no scroll position is saved, perform a normal load.
   if (!scrollPosition) {
     observer.observe(observerTrigger);
     if (!searchQuery) {
+      //Quit Preloader
+      fadeOutPreloader()
       await loadNextPage();
     }
     return;
@@ -222,7 +229,7 @@ const initialLoad = async () => {
       // Re-enable the IntersectionObserver for normal lazy loading.
       observer.observe(observerTrigger);
       //Quit preloader
-      fadeOutPreloader(300);
+      fadeOutPreloader();
     }
   };
 
@@ -254,7 +261,7 @@ const fadeInPreloader = () => {
  * Fades out the preloader element after a specified timeout.
  * @param {number} [timeOut=50] - The delay in milliseconds before the preloader fades out.
  */
-const fadeOutPreloader = (timeOut = 50) => {
+const fadeOutPreloader = (timeOut = 300) => {
   setTimeout(() => {
     //Quit LoadCurtain
     preloadContainer.style.visibility = 'hidden';

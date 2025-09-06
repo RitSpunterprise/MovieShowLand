@@ -10,7 +10,7 @@ const applyTheme = (theme) => {
         body.classList.add('dark-mode');
         body.classList.remove('light-mode');
         //Sun icon
-        toggleIcon.src = './src/assets/images/icons/sun-fill.svg'
+        toggleIcon.src = './frontend/src/main/assets/images/icons/sun-fill.svg'
         toggleIcon.className = 'mt-1'
         toggleIcon.alt = 'Sun icon'
 
@@ -18,7 +18,7 @@ const applyTheme = (theme) => {
         body.classList.add('light-mode');
         body.classList.remove('dark-mode');
         //Moon icon
-        toggleIcon.src = './src/assets/images/icons/moon-fill.svg'
+        toggleIcon.src = './frontend/src/main/assets/images/icons/moon-fill.svg'
         toggleIcon.className = 'mt-1'
         toggleIcon.alt = 'Moon icon'
     }

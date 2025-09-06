@@ -1,6 +1,7 @@
 import { setDynamicTheme } from '../themes/dynamicTheme.js';
 import { getTitleById } from '../models/data.js';
 import { createInformationalCard } from '../components/informationalCard.js';
+import { sanitizeInput } from '../utils/sanitizeInputs.js';
 
 const titleContainer = document.getElementById('title-container');
 
@@ -21,7 +22,7 @@ const renderTitle = async (item) => {
     }
 
     // Set the document title
-    document.title = `${item.primaryTitle} (${item.startYear})`;
+    document.title = `${item.primaryTitle} (${item.startYear}) - MovieShowland`;
 
     // Create and append the informational card from the component
     const infoCard = createInformationalCard(item);
@@ -52,7 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Get the title ID from the URL query parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const titleId = urlParams.get('id');
+        const unsafeTitleId = urlParams.get('id');
+        const titleId = sanitizeInput(unsafeTitleId);
 
         if (titleId) {
             // Fetch the title data by ID and render it

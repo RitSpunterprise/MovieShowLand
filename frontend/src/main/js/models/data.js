@@ -1,4 +1,5 @@
 import { config } from '../config/config.js';
+import { sanitizeInput } from '../utils/sanitizeInputs.js';
 
 /**
  * Fetches a list of Movie and TV Show titles from the API for a specific page.
@@ -7,8 +8,9 @@ import { config } from '../config/config.js';
  * @throws {Error} Throws an error if the network request fails or the API returns a non-successful status.
  */
 export const getTitlesData = async (pageToken = '') => {
+    const sanitizedPageToken = sanitizeInput(pageToken);
     const url = new URL(config.API_URL);
-    url.searchParams.append('pageToken', pageToken); //e.g 'https://api.imdbapi.dev/titles?pageToken=${item.nextPageToken} = https://api.imdbapi.dev/titles?pageToken="fsdlkfjdsajfsj"'
+    url.searchParams.append('pageToken', sanitizedPageToken); //e.g 'https://api.imdbapi.dev/titles?pageToken=${item.nextPageToken} = https://api.imdbapi.dev/titles?pageToken="fsdlkfjdsajfsj"'
 
     try {
         const response = await fetch(url, {
@@ -33,7 +35,8 @@ export const getTitlesData = async (pageToken = '') => {
  * @throws {Error} Throws an error if the network request fails or the API returns a non-successful status.
  */
 export const getTitleById = async (id) => {
-    const url = new URL(`${config.API_URL}/${id}`);
+    const sanitizedId = sanitizeInput(id);
+    const url = new URL(`${config.API_URL}/${sanitizedId}`);
     try {
         const response = await fetch(url, {
             priority: 'high',
@@ -57,8 +60,10 @@ export const getTitleById = async (id) => {
  * @throws {Error} Throws an error if the network request fails.
  */
 export const searchTitleByName = async (titleName) => {
+    const sanitizedTitleName = sanitizeInput(titleName);
     const url = new URL(`${config.BASE_API_URL}/search/titles`);
-    url.searchParams.append('query', titleName)
+    url.searchParams.append('query', sanitizedTitleName)
+    url.searchParams.append('limit', '50')
     try {
         const response = await fetch(url, {
             priority: 'high',
@@ -68,7 +73,7 @@ export const searchTitleByName = async (titleName) => {
             throw new Error(`API request failed with status: ${response.status} ${response.statusText}`);
         }
         const res = await response.json();
-        console.log(res)
+        //console.log(res)
         return res || [];
     } catch (error) {
         console.error(`Failed to search title data for: ${titleName}`, error);

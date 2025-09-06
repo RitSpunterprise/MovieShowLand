@@ -1,1 +1,0 @@
-export const getImageCard = () => document.getElementById('card-image')
